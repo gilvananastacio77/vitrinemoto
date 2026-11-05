@@ -428,11 +428,12 @@ f.addEventListener("submit", async e => {
       method:"POST", headers:{"Content-Type":"application/json","Accept":"application/json"}, body: JSON.stringify(dados)
     });
     const j = await r.json().catch(()=>({}));
-    if (!r.ok || String(j.success) === "false") throw new Error(j.message || "falha");
+    if (/activat/i.test(j.message || "")){ mostra("Quase lá: o formulário precisa ser ativado. O Gilvan recebeu um e-mail do FormSubmit para ativar. Depois disso, envie de novo.", "err"); return; }
+    if (!r.ok || String(j.success) === "false") throw new Error((j.message || "falha") + " (código " + r.status + ")");
     mostra("Produto enviado! " + dados["Marca"] + " " + dados["Modelo"] + " chegou para o Gilvan. Pode cadastrar o próximo.", "ok");
     f.reset(); fotos.forEach(u=>URL.revokeObjectURL(u)); fotos=[]; corSel=0; renderFotos(); render();
   }catch(err){
-    mostra("Não foi possível enviar agora. Confira a internet e tente de novo. Se continuar, mande um print para o Gilvan.", "err");
+    mostra("Não foi possível enviar agora. Confira a internet e tente de novo. Se continuar, mande um print para o Gilvan. Detalhe: " + (err && err.message ? err.message : err), "err");
   }finally{
     btn.disabled = false; btn.textContent = "Enviar produto";
   }
