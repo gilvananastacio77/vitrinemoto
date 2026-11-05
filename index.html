@@ -423,23 +423,23 @@ f.addEventListener("submit", async e => {
   dados._template = "table";
 
   btn.disabled = true; btn.textContent = "Enviando...";
-  try{
-    const r = await fetch("https://formsubmit.co/ajax/" + DESTINO, {
-      method:"POST", headers:{"Content-Type":"application/json","Accept":"application/json"}, body: JSON.stringify(dados)
-    });
-    const j = await r.json().catch(()=>({}));
-    if (/activat/i.test(j.message || "")){ mostra("Quase lá: o formulário precisa ser ativado. O Gilvan recebeu um e-mail do FormSubmit para ativar. Depois disso, envie de novo.", "err"); return; }
-    if (!r.ok || String(j.success) === "false") throw new Error((j.message || "falha") + " (código " + r.status + ")");
-    mostra("Produto enviado! " + dados["Marca"] + " " + dados["Modelo"] + " chegou para o Gilvan. Pode cadastrar o próximo.", "ok");
-    f.reset(); fotos.forEach(u=>URL.revokeObjectURL(u)); fotos=[]; corSel=0; renderFotos(); render();
-  }catch(err){
-    mostra("Não foi possível enviar agora. Confira a internet e tente de novo. Se continuar, mande um print para o Gilvan. Detalhe: " + (err && err.message ? err.message : err), "err");
-  }finally{
-    btn.disabled = false; btn.textContent = "Enviar produto";
-  }
+  dados._captcha = "false";
+  dados._next = location.origin + location.pathname + "?enviado=" + encodeURIComponent(dados["Marca"] + " " + dados["Modelo"]);
+  const env = document.createElement("form");
+  env.method = "POST";
+  env.action = "https://formsubmit.co/" + DESTINO;
+  env.acceptCharset = "UTF-8";
+  Object.entries(dados).forEach(([k,v])=>{ const i=document.createElement("input"); i.type="hidden"; i.name=k; i.value=v; env.appendChild(i); });
+  document.body.appendChild(env);
+  env.submit();
 });
 
 render();
+const enviado = new URLSearchParams(location.search).get("enviado");
+if (enviado){
+  mostra("Produto enviado! " + enviado + " chegou para o Gilvan. Pode cadastrar o próximo.", "ok");
+  history.replaceState(null, "", location.pathname);
+}
 </script>
 </body>
 </html>
