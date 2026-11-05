@@ -104,6 +104,39 @@ a.btn{text-decoration:none;text-align:center}
 .sheet-top h2{margin:0;font-size:1.15rem}
 .x{border:0;background:var(--accent-soft);color:var(--accent);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1rem}
 .btn.wa{background:#1f9d55;color:#fff}
+.crumb{color:inherit;text-decoration:none}
+.crumb:hover{text-decoration:underline}
+.back{display:inline-block;color:var(--accent);text-decoration:none;font-weight:600;font-size:.9rem;margin-bottom:10px}
+a.btn{display:inline-block}
+.hero{background:linear-gradient(135deg,var(--brand) 0%,#1f3263 100%);color:#fff}
+.hero .in{max-width:1180px;margin:0 auto;padding:36px 16px;display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:center}
+.eyebrow{margin:0 0 8px;color:var(--brand-2);font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase}
+.hero-h{margin:0 0 10px;font-size:2rem;line-height:1.15;letter-spacing:-.02em}
+.hero-p{margin:0 0 20px;color:#c9d1e0;max-width:46ch}
+.cta-hero{background:var(--brand-2);color:var(--brand);font-size:1rem}
+.hero-art{max-width:260px;justify-self:center;width:100%;aspect-ratio:5/4}
+@media (max-width:700px){.hero .in{grid-template-columns:1fr}.hero-art{display:none}.hero-h{font-size:1.55rem}}
+.wrap-home{max-width:1180px;margin:0 auto;padding:24px 16px 48px}
+.sec-h{font-size:1.15rem;margin:8px 0 14px;letter-spacing:-.01em}
+.sec-row{display:flex;align-items:baseline;justify-content:space-between;margin-top:28px}
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:700px){.cats{grid-template-columns:1fr}}
+.cat{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;text-decoration:none;color:inherit;box-shadow:var(--shadow);transition:transform .15s,border-color .15s}
+.cat:hover{transform:translateY(-2px);border-color:var(--accent)}
+.cat-ic{grid-row:span 2;width:52px;height:52px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center}
+.cat b{font-size:1rem}
+.cat span:last-child{font-size:.82rem;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.prod{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.prod .im{aspect-ratio:1/1;background:#fff;display:grid;place-items:center;border-bottom:1px solid var(--line)}
+.prod .im img{width:100%;height:100%;object-fit:contain}
+.prod .bd{padding:12px 14px 16px;display:grid;gap:4px}
+.prod .nm{font-size:.92rem;line-height:1.3}
+.prod .pr{font-size:1.25rem;font-weight:500}
+.prod .tg{font-size:.78rem;color:var(--ok);font-weight:600}
+.empty{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:36px 20px;text-align:center;display:grid;justify-items:center;gap:8px;color:var(--muted)}
+.empty b{color:var(--text);font-size:1.05rem}
+.empty p{margin:0 0 8px;max-width:42ch}
 .hide{display:none!important}
 .hp{position:absolute;left:-9999px}
 
@@ -163,10 +196,54 @@ a.btn{text-decoration:none;text-align:center}
     <div class="who"><span>Olá, Sabrina</span><div class="av">S</div></div>
   </div>
 </header>
-<div class="sub"><div class="in">Início › Meus produtos › <b>Cadastrar produto</b></div></div>
+<div class="sub"><div class="in"><a href="#/" class="crumb">Início</a><span id="crumb-form"> › <b>Cadastrar produto</b></span></div></div>
 
-<main class="page">
+<div id="v-home">
+  <section class="hero">
+    <div class="in">
+      <div class="hero-txt">
+        <p class="eyebrow">Capacetes e pneus de moto</p>
+        <h1 class="hero-h">Equipamento de qualidade, direto para o motociclista.</h1>
+        <p class="hero-p">Painel da loja: cadastre os produtos que chegaram e acompanhe a vitrine.</p>
+        <a href="#/cadastrar" class="btn cta-hero">+ Cadastrar produto</a>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 200 160" width="100%" height="100%"><circle cx="100" cy="80" r="70" fill="#fca311" opacity=".18"/><path d="M45 92c0-34 25-58 58-58 30 0 52 20 54 50l-30 4c-6 1-10 6-10 12v8H62c-9 0-17-7-17-16z" fill="#fca311"/><path d="M103 50c18 0 33 10 39 26l-41 5c-5 1-9-3-9-8V52c4-1 7-2 11-2z" fill="#14213d" opacity=".85"/><rect x="58" y="110" width="70" height="8" rx="4" fill="#fff" opacity=".5"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap-home">
+    <h2 class="sec-h">Cadastrar por categoria</h2>
+    <div class="cats">
+      <a class="cat" href="#/cadastrar/Capacete">
+        <span class="cat-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15a8 8 0 0 1 16-1l-6 1a2 2 0 0 0-2 2v1H6a2 2 0 0 1-2-2z"/><path d="M12 7c3 0 6 2 7 5"/></svg></span>
+        <b>Capacetes</b><span>Fechados, abertos, escamoteáveis</span>
+      </a>
+      <a class="cat" href="#/cadastrar/Pneu de moto">
+        <span class="cat-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v5M12 16v5M3 12h5M16 12h5"/></svg></span>
+        <b>Pneus de moto</b><span>Dianteiro e traseiro, por medida</span>
+      </a>
+      <a class="cat" href="#/cadastrar/Acessório">
+        <span class="cat-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg></span>
+        <b>Acessórios</b><span>Viseiras, luvas, intercomunicadores</span>
+      </a>
+    </div>
+
+    <div class="sec-row"><h2 class="sec-h">Produtos na vitrine</h2><span class="hint" id="qtd"></span></div>
+    <div class="grid" id="grid"></div>
+    <div class="empty hide" id="empty">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18l-2 11H5z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg>
+      <b>A vitrine ainda está vazia</b>
+      <p>Cadastre o primeiro produto. Depois que o Gilvan publicar o anúncio, ele aparece aqui.</p>
+      <a href="#/cadastrar" class="btn pri">Cadastrar o primeiro produto</a>
+    </div>
+  </div>
+</div>
+
+<main class="page hide" id="v-form">
   <section>
+    <a href="#/" class="back">‹ Voltar para a loja</a>
     <h1>Cadastrar produto</h1>
     <p class="lead">Preencha um produto por vez. Ao lado (ou embaixo, no celular) você vê como o anúncio vai ficar na loja.</p>
 
@@ -181,7 +258,7 @@ a.btn{text-decoration:none;text-align:center}
         <div class="seg">
           <input type="radio" id="t1" name="Tipo" value="Capacete" checked><label for="t1">Capacete</label>
           <input type="radio" id="t2" name="Tipo" value="Pneu de moto"><label for="t2">Pneu de moto</label>
-          <input type="radio" id="t3" name="Tipo" value="Outro"><label for="t3">Outro</label>
+          <input type="radio" id="t3" name="Tipo" value="Acessório"><label for="t3">Acessório</label>
         </div>
         <div class="row">
           <div><label for="marca">Marca *</label><input id="marca" type="text" name="Marca" placeholder="Ex.: Norisk" required data-campo="Marca"></div>
@@ -316,7 +393,7 @@ a.btn{text-decoration:none;text-align:center}
   </aside>
 </main>
 
-<div class="bar"><div class="in">
+<div class="bar hide" id="bar"><div class="in">
   <div class="st" id="st">Preencha marca, modelo, cores e custo.</div>
   <a href="#previa" class="btn ghost only-m">Ver prévia</a>
   <button id="btn" class="btn pri" type="submit" form="f">Enviar produto</button>
@@ -326,8 +403,8 @@ a.btn{text-decoration:none;text-align:center}
   <div class="sheet-in">
     <div class="sheet-top"><h2 id="sh-h">Enviar para o Gilvan</h2><button id="sh-close" class="x" type="button" aria-label="Fechar">✕</button></div>
     <p class="hint" style="margin:0 0 16px">Produto: <b id="sh-title"></b>. A mensagem já vai pronta, é só tocar em enviar no aplicativo.</p>
+    <button id="sh-mail" class="btn pri" type="button">Enviar por e-mail (recomendado)</button>
     <button id="sh-wa" class="btn wa hide" type="button">Enviar pelo WhatsApp</button>
-    <button id="sh-mail" class="btn pri" type="button">Enviar por e-mail</button>
     <button id="sh-copy" class="btn ghost" type="button">Copiar texto</button>
   </div>
 </div>
@@ -351,7 +428,7 @@ function render(){
 
   const marca = $("marca").value.trim(), modelo = $("modelo").value.trim();
   $("pv-cat").textContent = t;
-  const nome = t === "Outro" ? "" : t + " ";
+  const nome = t === "Acessório" ? "" : t + " ";
   $("pv-title").textContent = (nome + (marca || "Marca") + " " + (modelo || "Modelo")).trim();
 
   const p = parseFloat($("preco").value);
@@ -434,7 +511,7 @@ function montaTexto(){
   const L = [];
   L.push("*NOVO PRODUTO · Vitrine Moto*");
   L.push("");
-  L.push("*" + (tipo === "Outro" ? "" : tipo + " ") + g("Marca") + " " + g("Modelo") + "*");
+  L.push("*" + (tipo === "Acessório" ? "" : tipo + " ") + g("Marca") + " " + g("Modelo") + "*");
   L.push("Cores: " + g("Cores"));
   L.push("Custo por unidade: R$ " + g("Custo unitario (R$)"));
   if (g("Preco sugerido (R$)")) L.push("Preço sugerido: R$ " + g("Preco sugerido (R$)"));
@@ -502,7 +579,46 @@ $("sh-copy").onclick = async () => {
   setTimeout(() => { $("sh-copy").textContent = "Copiar texto"; }, 2000);
 };
 
+function rota(){
+  const h = decodeURIComponent(location.hash || "#/");
+  const m = h.match(/^#\/cadastrar(?:\/(.+))?/);
+  const form = !!m;
+  $("v-home").classList.toggle("hide", form);
+  $("v-form").classList.toggle("hide", !form);
+  $("bar").classList.toggle("hide", !form);
+  $("crumb-form").classList.toggle("hide", !form);
+  if (form && m[1]){
+    const r = f.querySelector('input[name="Tipo"][value="' + m[1].replace(/"/g,"") + '"]');
+    if (r){ r.checked = true; render(); }
+  }
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange", rota);
+
+async function carregaVitrine(){
+  let lista = [];
+  try { const r = await fetch("produtos.json", {cache:"no-store"}); if (r.ok) lista = await r.json(); } catch(_) {}
+  const g = $("grid"); g.textContent = "";
+  $("empty").classList.toggle("hide", lista.length > 0);
+  g.classList.toggle("hide", !lista.length);
+  $("qtd").textContent = lista.length ? lista.length + " produto" + (lista.length > 1 ? "s" : "") : "";
+  lista.forEach(p => {
+    const a = document.createElement(p.link ? "a" : "div"); a.className = "prod";
+    if (p.link){ a.href = p.link; a.target = "_blank"; a.rel = "noopener"; }
+    const im = document.createElement("div"); im.className = "im";
+    if (p.foto){ const i = document.createElement("img"); i.src = p.foto; i.alt = p.nome || ""; i.loading = "lazy"; im.appendChild(i); }
+    const bd = document.createElement("div"); bd.className = "bd";
+    const nm = document.createElement("div"); nm.className = "nm"; nm.textContent = p.nome || "";
+    const pr = document.createElement("div"); pr.className = "pr"; pr.textContent = p.preco ? brl(p.preco) : "Preço a definir";
+    bd.append(nm, pr);
+    if (p.status){ const tg = document.createElement("div"); tg.className = "tg"; tg.textContent = p.status; bd.appendChild(tg); }
+    a.append(im, bd); g.appendChild(a);
+  });
+}
+
 render();
+rota();
+carregaVitrine();
 </script>
 </body>
 </html>
