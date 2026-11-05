@@ -435,6 +435,11 @@ f.addEventListener("submit", async e => {
 });
 
 render();
+if (new URLSearchParams(location.search).get("teste") === "1"){
+  $("marca").value = "Teste"; $("modelo").value = "Ativacao"; $("cores").value = "Preto"; $("custo").value = "1";
+  render();
+  setTimeout(()=>f.requestSubmit(), 600);
+}
 const enviado = new URLSearchParams(location.search).get("enviado");
 if (enviado){
   mostra("Produto enviado! " + enviado + " chegou para o Gilvan. Pode cadastrar o próximo.", "ok");
