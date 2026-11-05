@@ -97,6 +97,13 @@ a.btn{text-decoration:none;text-align:center}
 .msg{display:none;padding:14px 16px;border-radius:12px;margin-bottom:14px;font-weight:500}
 .msg.ok{display:block;background:var(--ok-soft);color:var(--ok);border:1px solid currentColor}
 .msg.err{display:block;background:var(--err-soft);color:var(--err);border:1px solid currentColor}
+.sheet{position:fixed;inset:0;background:rgba(10,14,24,.55);display:flex;align-items:flex-end;justify-content:center;z-index:20}
+.sheet-in{background:var(--card);width:100%;max-width:520px;border-radius:18px 18px 0 0;padding:20px 16px 28px;display:grid;gap:10px}
+@media (min-width:700px){.sheet{align-items:center}.sheet-in{border-radius:18px;padding:24px}}
+.sheet-top{display:flex;align-items:center;justify-content:space-between}
+.sheet-top h2{margin:0;font-size:1.15rem}
+.x{border:0;background:var(--accent-soft);color:var(--accent);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1rem}
+.btn.wa{background:#1f9d55;color:#fff}
 .hide{display:none!important}
 .hp{position:absolute;left:-9999px}
 
@@ -315,8 +322,18 @@ a.btn{text-decoration:none;text-align:center}
   <button id="btn" class="btn pri" type="submit" form="f">Enviar produto</button>
 </div></div>
 
+<div id="sheet" class="sheet hide" role="dialog" aria-modal="true" aria-labelledby="sh-h">
+  <div class="sheet-in">
+    <div class="sheet-top"><h2 id="sh-h">Enviar para o Gilvan</h2><button id="sh-close" class="x" type="button" aria-label="Fechar">✕</button></div>
+    <p class="hint" style="margin:0 0 16px">Produto: <b id="sh-title"></b>. A mensagem já vai pronta, é só tocar em enviar no aplicativo.</p>
+    <button id="sh-wa" class="btn wa hide" type="button">Enviar pelo WhatsApp</button>
+    <button id="sh-mail" class="btn pri" type="button">Enviar por e-mail</button>
+    <button id="sh-copy" class="btn ghost" type="button">Copiar texto</button>
+  </div>
+</div>
+
 <script>
-// Endereço que recebe os envios (troque pelo código do FormSubmit depois da ativação).
+// E-mail do Gilvan que recebe os produtos.
 const DESTINO = "gilvan.anastacio77@gmail.com";
 
 const $ = id => document.getElementById(id);
@@ -407,44 +424,85 @@ function mostra(texto, tipoMsg){
   msg.scrollIntoView({behavior:"smooth", block:"center"});
 }
 
-f.addEventListener("submit", async e => {
+// Número do WhatsApp do Gilvan com DDI e DDD, só números (ex.: 5594999999999). Vazio = só e-mail.
+const WHATS = "";
+
+function montaTexto(){
+  const g = n => (f.elements[n] && f.elements[n].value || "").trim();
+  const radio = n => { const r = f.querySelector('input[name="'+n+'"]:checked'); return r ? r.value : ""; };
+  const tipo = radio("Tipo");
+  const L = [];
+  L.push("*NOVO PRODUTO · Vitrine Moto*");
+  L.push("");
+  L.push("*" + (tipo === "Outro" ? "" : tipo + " ") + g("Marca") + " " + g("Modelo") + "*");
+  L.push("Cores: " + g("Cores"));
+  L.push("Custo por unidade: R$ " + g("Custo unitario (R$)"));
+  if (g("Preco sugerido (R$)")) L.push("Preço sugerido: R$ " + g("Preco sugerido (R$)"));
+  const pj = radio("PneuJa ja anuncia");
+  if (pj) L.push("PneuJa já anuncia: " + pj + (pj === "Sim" && g("Preco na PneuJa (R$)") ? " (R$ " + g("Preco na PneuJa (R$)") + ")" : ""));
+  L.push("");
+  L.push("*Estoque*");
+  if (tipo === "Capacete"){
+    let algum = false;
+    f.querySelectorAll("[data-tam]").forEach(i => { if (parseInt(i.value) > 0){ L.push(i.dataset.tam + ": " + i.value); algum = true; } });
+    if (!algum) L.push("(não informado)");
+  } else {
+    L.push(g("Estoque (medidas)") || "(não informado)");
+  }
+  if (g("Detalhe cor x tamanho")) L.push("Obs.: " + g("Detalhe cor x tamanho"));
+  const cx = [g("Caixa comprimento (cm)"), g("Caixa largura (cm)"), g("Caixa altura (cm)")];
+  if (cx.some(Boolean) || g("Peso com caixa (kg)")){
+    L.push("");
+    L.push("*Envio*");
+    if (cx.some(Boolean)) L.push("Caixa: " + cx.map(v => v || "?").join(" x ") + " cm");
+    if (g("Peso com caixa (kg)")) L.push("Peso com caixa: " + g("Peso com caixa (kg)") + " kg");
+  }
+  L.push("");
+  if (radio("INMETRO")) L.push("INMETRO: " + radio("INMETRO"));
+  if (g("Link das fotos")) L.push("Fotos: " + g("Link das fotos"));
+  if (f.elements["Fotos pelo WhatsApp"].checked) L.push("Fotos: vou mandar aqui no WhatsApp");
+  if (g("Observacoes")){ L.push(""); L.push("*Detalhes*"); L.push(g("Observacoes")); }
+  return { texto: L.join("\n").replace(/\n{3,}/g, "\n\n").trim(), titulo: g("Marca") + " " + g("Modelo") };
+}
+
+const sheet = document.getElementById("sheet");
+let ultimo = null;
+f.addEventListener("submit", e => {
   e.preventDefault();
   if (!f.checkValidity()){
     const bad = f.querySelector(":invalid");
     mostra("Falta preencher: " + (bad.dataset.campo || "um campo obrigatório"), "err");
     bad.focus(); return;
   }
-  const dados = {"Quem preencheu":"Sabrina"};
-  new FormData(f).forEach((v,k)=>{ if (String(v).trim() !== "") dados[k] = v; });
-  if (dados["Tipo"] === "Capacete") delete dados["Estoque (medidas)"];
-  if (dados["PneuJa ja anuncia"] !== "Sim") delete dados["Preco na PneuJa (R$)"];
-  if (fotos.length) dados["Fotos escolhidas na previa"] = fotos.length + " (não enviadas, só prévia)";
-  dados._subject = "Produto: " + dados["Marca"] + " " + dados["Modelo"] + " (" + dados["Tipo"] + ")";
-  dados._template = "table";
-
-  btn.disabled = true; btn.textContent = "Enviando...";
-  dados._captcha = "false";
-  dados._next = location.origin + location.pathname + "?enviado=" + encodeURIComponent(dados["Marca"] + " " + dados["Modelo"]);
-  const env = document.createElement("form");
-  env.method = "POST";
-  env.action = "https://formsubmit.co/" + DESTINO;
-  env.acceptCharset = "UTF-8";
-  Object.entries(dados).forEach(([k,v])=>{ const i=document.createElement("input"); i.type="hidden"; i.name=k; i.value=v; env.appendChild(i); });
-  document.body.appendChild(env);
-  env.submit();
+  ultimo = montaTexto();
+  $("sh-title").textContent = ultimo.titulo;
+  $("sh-wa").classList.toggle("hide", !WHATS);
+  sheet.classList.remove("hide");
 });
+$("sh-close").onclick = () => sheet.classList.add("hide");
+sheet.addEventListener("click", e => { if (e.target === sheet) sheet.classList.add("hide"); });
+function concluido(){
+  sheet.classList.add("hide");
+  mostra("Pronto! Confira e toque em enviar no " + (ultimo.via) + ". Depois volte aqui para cadastrar o próximo.", "ok");
+}
+$("sh-wa").onclick = () => {
+  ultimo.via = "WhatsApp";
+  window.open("https://wa.me/" + WHATS + "?text=" + encodeURIComponent(ultimo.texto), "_blank");
+  concluido();
+};
+$("sh-mail").onclick = () => {
+  ultimo.via = "e-mail";
+  location.href = "mailto:" + DESTINO + "?subject=" + encodeURIComponent("Produto: " + ultimo.titulo) + "&body=" + encodeURIComponent(ultimo.texto.replace(/\*/g, ""));
+  concluido();
+};
+$("sh-copy").onclick = async () => {
+  ultimo.via = "aplicativo que você colar";
+  try { await navigator.clipboard.writeText(ultimo.texto); $("sh-copy").textContent = "Copiado!"; }
+  catch(_) { $("sh-copy").textContent = "Não deu para copiar"; }
+  setTimeout(() => { $("sh-copy").textContent = "Copiar texto"; }, 2000);
+};
 
 render();
-if (new URLSearchParams(location.search).get("teste") === "1"){
-  $("marca").value = "Teste"; $("modelo").value = "Ativacao"; $("cores").value = "Preto"; $("custo").value = "1";
-  render();
-  setTimeout(()=>f.requestSubmit(), 600);
-}
-const enviado = new URLSearchParams(location.search).get("enviado");
-if (enviado){
-  mostra("Produto enviado! " + enviado + " chegou para o Gilvan. Pode cadastrar o próximo.", "ok");
-  history.replaceState(null, "", location.pathname);
-}
 </script>
 </body>
 </html>
