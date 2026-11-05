@@ -3,177 +3,407 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cadastro de Produtos</title>
+<title>Vitrine Moto · Novo anúncio</title>
 <meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#f6f5f2;--card:#ffffff;--text:#1d1d1f;--muted:#6b6b70;--line:#e2e0db;
-  --accent:#d6336c;--accent-ink:#ffffff;--ok:#2f9e44;--err:#c92a2a;--field:#fbfaf8;
+  --bg:#eef0f3;--card:#fff;--text:#1a1c20;--muted:#6a6f78;--line:#e3e6ea;--field:#fff;
+  --brand:#14213d;--brand-2:#fca311;--brand-ink:#14213d;--accent:#2563eb;--accent-soft:#e8f0fe;
+  --ok:#14915a;--ok-soft:#e5f5ed;--err:#c62828;--err-soft:#fdecec;
+  --shadow:0 1px 2px rgba(16,24,40,.06),0 4px 14px rgba(16,24,40,.06);
 }
 @media (prefers-color-scheme:dark){
-  :root{--bg:#141416;--card:#1e1e21;--text:#ededf0;--muted:#a0a0a8;--line:#333338;
-  --accent:#f06595;--accent-ink:#141416;--ok:#51cf66;--err:#ff6b6b;--field:#26262a;}
+  :root{--bg:#0f1115;--card:#181b21;--text:#eceef2;--muted:#9aa1ad;--line:#2a2f38;--field:#1f232a;
+  --accent:#6ea0ff;--accent-soft:#1c2840;--ok:#3ecf8e;--ok-soft:#14261d;--err:#ff6b6b;--err-soft:#2c1717;
+  --shadow:0 1px 2px rgba(0,0,0,.3);}
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);
-  font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-.wrap{max-width:640px;margin:0 auto;padding:24px 16px 64px}
-header h1{font-size:1.6rem;margin:0 0 4px}
-header p{margin:0 0 20px;color:var(--muted)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
-.card h2{font-size:1.05rem;margin:0 0 14px}
-label{display:block;font-weight:600;font-size:.95rem;margin:14px 0 6px}
-.card h2+label{margin-top:0}
-.hint{font-weight:400;color:var(--muted);font-size:.85rem}
-input[type=text],input[type=number],input[type=url],select,textarea{
-  width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;
-  background:var(--field);color:var(--text);font:inherit}
-textarea{min-height:84px;resize:vertical}
-input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+
+/* Cabeçalho */
+.top{background:var(--brand);color:#fff}
+.top .in{max-width:1180px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15rem;letter-spacing:-.01em}
+.logo .mark{width:34px;height:34px;border-radius:10px;background:var(--brand-2);display:grid;place-items:center;color:var(--brand)}
+.logo small{display:block;font-weight:500;font-size:.75rem;opacity:.75;letter-spacing:0}
+.top .who{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:.85rem}
+.top .av{width:30px;height:30px;border-radius:50%;background:#fff2;display:grid;place-items:center;font-weight:700}
+.sub{background:var(--card);border-bottom:1px solid var(--line)}
+.sub .in{max-width:1180px;margin:0 auto;padding:10px 16px;font-size:.85rem;color:var(--muted)}
+.sub b{color:var(--text)}
+
+/* Layout */
+.page{max-width:1180px;margin:0 auto;padding:20px 16px 120px;display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:24px;align-items:start}
+@media (max-width:960px){.page{grid-template-columns:1fr}}
+h1{font-size:1.45rem;margin:0 0 4px;letter-spacing:-.02em}
+.lead{margin:0 0 18px;color:var(--muted)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:14px;box-shadow:var(--shadow)}
+.card h2{display:flex;align-items:center;gap:10px;font-size:1rem;margin:0 0 16px}
+.card h2 .n{width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.8rem;font-weight:700}
+label,.lbl{display:block;font-weight:600;font-size:.88rem;margin:16px 0 6px}
+.card h2+label,.card h2+.lbl,.card h2+div>label:first-child{margin-top:0}
+.hint{font-weight:400;color:var(--muted);font-size:.8rem}
+input[type=text],input[type=number],input[type=url],textarea{
+  width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--field);transition:border-color .15s,box-shadow .15s}
+textarea{min-height:88px;resize:vertical}
+input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.money{position:relative}
+.money span{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.money input{padding-left:40px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .row3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.row3 .hint{display:block;margin-bottom:4px}
+@media (max-width:460px){.row{grid-template-columns:1fr}}
+
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{margin:0;font-weight:500;padding:9px 16px;border:1px solid var(--line);border-radius:999px;cursor:pointer;background:var(--field);font-size:.9rem}
+.seg input:checked+label{background:var(--accent);color:#fff;border-color:var(--accent)}
+.seg input:focus-visible+label{box-shadow:0 0 0 3px var(--accent-soft)}
+
 .sizes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.sizes div span{display:block;font-size:.85rem;color:var(--muted);margin-bottom:4px}
-.pills{display:flex;flex-wrap:wrap;gap:8px}
-.pills input{position:absolute;opacity:0;pointer-events:none}
-.pills label{margin:0;font-weight:500;padding:9px 14px;border:1px solid var(--line);
-  border-radius:999px;cursor:pointer;background:var(--field)}
-.pills input:checked+label{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.pills input:focus-visible+label{outline:2px solid var(--accent);outline-offset:2px}
-.check{display:flex;gap:10px;align-items:flex-start;font-weight:500;margin-top:12px}
-.check input{margin-top:4px;width:18px;height:18px}
-button{width:100%;padding:16px;border:0;border-radius:12px;background:var(--accent);
-  color:var(--accent-ink);font-family:inherit;font-size:1.1rem;font-weight:600;cursor:pointer}
-button:disabled{opacity:.6;cursor:wait}
-.msg{display:none;padding:16px;border-radius:12px;margin-bottom:16px;font-weight:500}
-.msg.ok{display:block;background:color-mix(in srgb,var(--ok) 15%,transparent);border:1px solid var(--ok)}
-.msg.err{display:block;background:color-mix(in srgb,var(--err) 15%,transparent);border:1px solid var(--err)}
-.hide{display:none}
+.size{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--field)}
+.size span{display:block;font-size:.78rem;color:var(--muted);font-weight:600}
+.size input{border:0;padding:2px 0;background:transparent;font-weight:700;font-size:1.05rem}
+.size input:focus{box-shadow:none}
+.size:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+.drop{display:flex;align-items:center;gap:12px;border:1.5px dashed var(--line);border-radius:12px;padding:14px;cursor:pointer;background:var(--field)}
+.drop:hover{border-color:var(--accent)}
+.drop .ic{width:40px;height:40px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex:none}
+.drop b{display:block;font-size:.9rem}
+.drop input{display:none}
+.check{display:flex;gap:10px;align-items:center;font-weight:500;margin-top:12px;font-size:.9rem}
+.check input{width:18px;height:18px;accent-color:var(--accent)}
+
+/* Envio */
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(0,0,0,.06);z-index:5}
+.bar .in{max-width:1180px;margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center}
+.bar .st{font-size:.85rem;color:var(--muted);flex:1;min-width:0}
+.btn{border:0;border-radius:10px;padding:13px 22px;font-weight:700;cursor:pointer}
+.btn.pri{background:var(--accent);color:#fff}
+.btn.pri:disabled{opacity:.6;cursor:wait}
+.btn.ghost{background:var(--accent-soft);color:var(--accent)}
+.only-m{display:none}
+a.btn{text-decoration:none;text-align:center}
+@media (max-width:960px){.only-m{display:inline-block}.pv-wrap{position:static}.bar .st{display:none}.bar .btn{flex:1}}
+
+.msg{display:none;padding:14px 16px;border-radius:12px;margin-bottom:14px;font-weight:500}
+.msg.ok{display:block;background:var(--ok-soft);color:var(--ok);border:1px solid currentColor}
+.msg.err{display:block;background:var(--err-soft);color:var(--err);border:1px solid currentColor}
+.hide{display:none!important}
 .hp{position:absolute;left:-9999px}
-@media (max-width:420px){.row{grid-template-columns:1fr}}
+
+/* Prévia do anúncio */
+.pv-wrap{position:sticky;top:16px}
+.pv-tag{display:flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:4px 0 10px}
+.pv-tag i{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px var(--ok-soft)}
+.pv{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.gal{background:#fff;aspect-ratio:1/1;display:grid;place-items:center;position:relative;border-bottom:1px solid var(--line)}
+.gal img{width:100%;height:100%;object-fit:contain}
+.gal .ph{display:grid;place-items:center;gap:8px;color:#9aa1ad;font-size:.85rem;text-align:center;padding:20px}
+.gal .badge{position:absolute;top:12px;left:12px;background:var(--ok);color:#fff;font-size:.72rem;font-weight:700;padding:4px 8px;border-radius:6px}
+.thumbs{display:flex;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);overflow-x:auto}
+.thumbs button{width:52px;height:52px;flex:none;border:1px solid var(--line);border-radius:8px;background:#fff;padding:2px;cursor:pointer}
+.thumbs button.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.thumbs img{width:100%;height:100%;object-fit:contain}
+.pv-b{padding:16px 18px 20px}
+.pv-meta{font-size:.78rem;color:var(--muted)}
+.pv h3{font-size:1.2rem;line-height:1.3;margin:4px 0 10px;font-weight:600;letter-spacing:-.01em}
+.price{font-size:1.9rem;font-weight:300;letter-spacing:-.02em}
+.price small{font-size:.85rem;color:var(--muted);display:block;font-weight:400;letter-spacing:0}
+.inst{color:var(--ok);font-size:.88rem;margin-top:2px}
+.pv .opt{margin-top:16px}
+.pv .opt .t{font-size:.85rem;margin-bottom:8px}
+.pv .opt .t b{font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:.85rem;background:var(--field)}
+.chip.on{border:2px solid var(--accent);padding:5px 11px}
+.chip.off{opacity:.4;text-decoration:line-through}
+.ship{margin-top:16px;display:flex;gap:10px;align-items:flex-start;font-size:.88rem}
+.ship svg{flex:none;color:var(--ok);margin-top:2px}
+.ship b{color:var(--ok)}
+.stock{margin-top:12px;font-size:.88rem}
+.stock b{font-weight:600}
+.cta{margin-top:16px;display:grid;gap:8px}
+.cta div{text-align:center;border-radius:8px;padding:12px;font-weight:600;font-size:.92rem}
+.cta .buy{background:var(--accent);color:#fff}
+.cta .cart{background:var(--accent-soft);color:var(--accent)}
+.feat{margin-top:16px;border-top:1px solid var(--line);padding-top:14px;font-size:.85rem}
+.feat h4{margin:0 0 8px;font-size:.92rem}
+.feat table{width:100%;border-collapse:collapse}
+.feat td{padding:7px 8px;border-bottom:1px solid var(--line)}
+.feat tr:nth-child(odd) td{background:color-mix(in srgb,var(--muted) 8%,transparent)}
+.feat td:first-child{color:var(--muted);width:45%}
+.pv-note{font-size:.78rem;color:var(--muted);margin-top:10px;text-align:center}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <h1>Cadastro de produtos</h1>
-    <p>Preencha <b>um produto por vez</b>. Ao enviar, as informações chegam direto para o Gilvan montar o anúncio. Campos com * são obrigatórios.</p>
-  </header>
-
-  <div id="msg" class="msg" role="status" aria-live="polite"></div>
-
-  <form id="f" novalidate>
-    <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off">
-
-    <div class="card">
-      <h2>1. O produto</h2>
-      <label>Quem está preenchendo? *</label>
-      <div class="pills">
-        <input type="radio" id="q1" name="Quem preencheu" value="Bruno" required data-campo="Quem está preenchendo"><label for="q1">Bruno</label>
-        <input type="radio" id="q2" name="Quem preencheu" value="Sabrina"><label for="q2">Sabrina</label>
+<header class="top">
+  <div class="in">
+    <div class="logo">
+      <div class="mark" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17" r="3.5"/><circle cx="18.5" cy="17" r="3.5"/><path d="M5.5 17h6l3-6h3l1 6M9 8h4l2 3"/></svg>
       </div>
-
-      <label>Tipo de produto *</label>
-      <div class="pills">
-        <input type="radio" id="t1" name="Tipo" value="Capacete" required checked><label for="t1">Capacete</label>
-        <input type="radio" id="t2" name="Tipo" value="Pneu de moto"><label for="t2">Pneu de moto</label>
-        <input type="radio" id="t3" name="Tipo" value="Outro"><label for="t3">Outro</label>
-      </div>
-
-      <div class="row">
-        <div><label for="marca">Marca *</label><input id="marca" type="text" name="Marca" placeholder="Ex.: Norisk" required data-campo="Marca"></div>
-        <div><label for="modelo">Modelo *</label><input id="modelo" type="text" name="Modelo" placeholder="Ex.: Grand Prix" required data-campo="Modelo"></div>
-      </div>
-
-      <label for="custo">Custo por unidade, já no Brasil (R$) * <span class="hint">— quanto sai para vocês, com frete e impostos da importação</span></label>
-      <input id="custo" type="number" name="Custo unitario (R$)" min="0" step="0.01" inputmode="decimal" placeholder="Ex.: 280,00" required data-campo="Custo por unidade">
-
-      <label for="cores">Cores disponíveis *</label>
-      <input id="cores" type="text" name="Cores" placeholder="Ex.: preto fosco, branco, vermelho" required data-campo="Cores">
+      <div>Vitrine Moto<small>Painel de produtos</small></div>
     </div>
+    <div class="who"><span>Olá, Sabrina</span><div class="av">S</div></div>
+  </div>
+</header>
+<div class="sub"><div class="in">Início › Meus produtos › <b>Cadastrar produto</b></div></div>
 
-    <div class="card">
-      <h2>2. Estoque</h2>
-      <div id="estoque-capacete">
-        <label>Quantidade por tamanho <span class="hint">— deixe em branco o que não tiver</span></label>
-        <div class="sizes">
-          <div><span>54 (XS)</span><input type="number" min="0" inputmode="numeric" name="Estoque 54 XS"></div>
-          <div><span>56 (S)</span><input type="number" min="0" inputmode="numeric" name="Estoque 56 S"></div>
-          <div><span>58 (M)</span><input type="number" min="0" inputmode="numeric" name="Estoque 58 M"></div>
-          <div><span>60 (L)</span><input type="number" min="0" inputmode="numeric" name="Estoque 60 L"></div>
-          <div><span>62 (XL)</span><input type="number" min="0" inputmode="numeric" name="Estoque 62 XL"></div>
-          <div><span>64 (XXL)</span><input type="number" min="0" inputmode="numeric" name="Estoque 64 XXL"></div>
+<main class="page">
+  <section>
+    <h1>Cadastrar produto</h1>
+    <p class="lead">Preencha um produto por vez. Ao lado (ou embaixo, no celular) você vê como o anúncio vai ficar na loja.</p>
+
+    <div id="msg" class="msg" role="status" aria-live="polite"></div>
+
+    <form id="f" novalidate>
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off">
+
+      <div class="card">
+        <h2><span class="n">1</span>Produto</h2>
+        <span class="lbl">Categoria</span>
+        <div class="seg">
+          <input type="radio" id="t1" name="Tipo" value="Capacete" checked><label for="t1">Capacete</label>
+          <input type="radio" id="t2" name="Tipo" value="Pneu de moto"><label for="t2">Pneu de moto</label>
+          <input type="radio" id="t3" name="Tipo" value="Outro"><label for="t3">Outro</label>
+        </div>
+        <div class="row">
+          <div><label for="marca">Marca *</label><input id="marca" type="text" name="Marca" placeholder="Ex.: Norisk" required data-campo="Marca"></div>
+          <div><label for="modelo">Modelo *</label><input id="modelo" type="text" name="Modelo" placeholder="Ex.: Grand Prix" required data-campo="Modelo"></div>
+        </div>
+        <label for="cores">Cores disponíveis * <span class="hint">separe por vírgula</span></label>
+        <input id="cores" type="text" name="Cores" placeholder="Ex.: Preto fosco, Branco, Vermelho" required data-campo="Cores">
+      </div>
+
+      <div class="card">
+        <h2><span class="n">2</span>Custo e preço</h2>
+        <div class="row">
+          <div>
+            <label for="custo">Custo por unidade * <span class="hint">já no Brasil</span></label>
+            <div class="money"><span>R$</span><input id="custo" type="number" name="Custo unitario (R$)" min="0" step="0.01" inputmode="decimal" placeholder="280,00" required data-campo="Custo por unidade"></div>
+          </div>
+          <div>
+            <label for="preco">Preço de venda sugerido <span class="hint">opcional</span></label>
+            <div class="money"><span>R$</span><input id="preco" type="number" name="Preco sugerido (R$)" min="0" step="0.01" inputmode="decimal" placeholder="489,00"></div>
+          </div>
+        </div>
+        <span class="lbl">A PneuJa já anuncia este modelo?</span>
+        <div class="seg">
+          <input type="radio" id="p1" name="PneuJa ja anuncia" value="Sim"><label for="p1">Sim</label>
+          <input type="radio" id="p2" name="PneuJa ja anuncia" value="Não"><label for="p2">Não</label>
+        </div>
+        <div id="box-pj" class="hide">
+          <label for="preco-pj">Por quanto a PneuJa vende?</label>
+          <div class="money"><span>R$</span><input id="preco-pj" type="number" name="Preco na PneuJa (R$)" min="0" step="0.01" inputmode="decimal"></div>
         </div>
       </div>
-      <div id="estoque-outro" class="hide">
-        <label for="est-txt">Medidas e quantidade <span class="hint">— uma por linha</span></label>
-        <textarea id="est-txt" name="Estoque (medidas)" placeholder="Ex.:&#10;100/80-18 — 10 unidades&#10;90/90-21 — 6 unidades"></textarea>
-      </div>
-      <label for="cor-tam">Estoque varia por cor? <span class="hint">— opcional, se quiser detalhar</span></label>
-      <input id="cor-tam" type="text" name="Detalhe cor x tamanho" placeholder="Ex.: branco só tem 58 e 60">
-    </div>
 
-    <div class="card">
-      <h2>3. Envio</h2>
-      <label>Caixa pronta para postar</label>
-      <div class="row3">
-        <div><span class="hint">Compr. (cm)</span><input type="number" min="0" step="0.1" inputmode="decimal" name="Caixa comprimento (cm)"></div>
-        <div><span class="hint">Largura (cm)</span><input type="number" min="0" step="0.1" inputmode="decimal" name="Caixa largura (cm)"></div>
-        <div><span class="hint">Altura (cm)</span><input type="number" min="0" step="0.1" inputmode="decimal" name="Caixa altura (cm)"></div>
-      </div>
-      <label for="peso">Peso com a caixa (kg)</label>
-      <input id="peso" type="number" min="0" step="0.01" inputmode="decimal" name="Peso com caixa (kg)" placeholder="Ex.: 2,3">
-    </div>
-
-    <div class="card">
-      <h2>4. Para o anúncio</h2>
-      <label>Tem selo do INMETRO?</label>
-      <div class="pills">
-        <input type="radio" id="i1" name="INMETRO" value="Sim"><label for="i1">Sim</label>
-        <input type="radio" id="i2" name="INMETRO" value="Não"><label for="i2">Não</label>
-        <input type="radio" id="i3" name="INMETRO" value="Não sei"><label for="i3">Não sei</label>
+      <div class="card">
+        <h2><span class="n">3</span>Estoque</h2>
+        <div id="estoque-capacete">
+          <span class="lbl">Quantidade por tamanho <span class="hint">deixe vazio o que não tiver</span></span>
+          <div class="sizes">
+            <label class="size"><span>54 · XS</span><input type="number" min="0" inputmode="numeric" name="Estoque 54 XS" data-tam="54 (XS)" placeholder="0"></label>
+            <label class="size"><span>56 · S</span><input type="number" min="0" inputmode="numeric" name="Estoque 56 S" data-tam="56 (S)" placeholder="0"></label>
+            <label class="size"><span>58 · M</span><input type="number" min="0" inputmode="numeric" name="Estoque 58 M" data-tam="58 (M)" placeholder="0"></label>
+            <label class="size"><span>60 · L</span><input type="number" min="0" inputmode="numeric" name="Estoque 60 L" data-tam="60 (L)" placeholder="0"></label>
+            <label class="size"><span>62 · XL</span><input type="number" min="0" inputmode="numeric" name="Estoque 62 XL" data-tam="62 (XL)" placeholder="0"></label>
+            <label class="size"><span>64 · XXL</span><input type="number" min="0" inputmode="numeric" name="Estoque 64 XXL" data-tam="64 (XXL)" placeholder="0"></label>
+          </div>
+        </div>
+        <div id="estoque-outro" class="hide">
+          <label for="est-txt">Medidas e quantidade <span class="hint">uma por linha</span></label>
+          <textarea id="est-txt" name="Estoque (medidas)" placeholder="100/80-18: 10&#10;90/90-21: 6"></textarea>
+        </div>
+        <label for="cor-tam">Estoque varia por cor? <span class="hint">opcional</span></label>
+        <input id="cor-tam" type="text" name="Detalhe cor x tamanho" placeholder="Ex.: Branco só tem 58 e 60">
       </div>
 
-      <label>A PneuJa já anuncia este modelo no Mercado Livre?</label>
-      <div class="pills">
-        <input type="radio" id="p1" name="PneuJa ja anuncia" value="Sim"><label for="p1">Sim</label>
-        <input type="radio" id="p2" name="PneuJa ja anuncia" value="Não"><label for="p2">Não</label>
+      <div class="card">
+        <h2><span class="n">4</span>Fotos</h2>
+        <label class="drop">
+          <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></span>
+          <span><b>Escolher fotos para a prévia</b><span class="hint">Frente, lado, trás e etiqueta do INMETRO</span></span>
+          <input id="fotos-file" type="file" accept="image/*" multiple>
+        </label>
+        <label for="fotos">Link da pasta de fotos <span class="hint">Google Drive ou Google Fotos</span></label>
+        <input id="fotos" type="url" name="Link das fotos" placeholder="https://...">
+        <label class="check"><input type="checkbox" name="Fotos pelo WhatsApp" value="Sim">Vou mandar as fotos pelo WhatsApp</label>
+        <p class="hint" style="margin:10px 0 0">As fotos escolhidas aqui servem só para ver a prévia. Para o Gilvan receber, mande o link da pasta ou pelo WhatsApp.</p>
       </div>
-      <label for="preco-pj">Se sim, por quanto? (R$)</label>
-      <input id="preco-pj" type="number" min="0" step="0.01" inputmode="decimal" name="Preco na PneuJa (R$)">
 
-      <label for="fotos">Link das fotos <span class="hint">— pasta do Google Drive ou Google Fotos</span></label>
-      <input id="fotos" type="url" name="Link das fotos" placeholder="https://...">
-      <label class="check"><input type="checkbox" name="Fotos pelo WhatsApp" value="Sim">Vou mandar as fotos pelo WhatsApp</label>
+      <div class="card">
+        <h2><span class="n">5</span>Envio e detalhes</h2>
+        <span class="lbl">Caixa pronta para postar</span>
+        <div class="row3">
+          <div><span class="hint">Compr. (cm)</span><input type="number" min="0" step="0.1" inputmode="decimal" name="Caixa comprimento (cm)"></div>
+          <div><span class="hint">Largura (cm)</span><input type="number" min="0" step="0.1" inputmode="decimal" name="Caixa largura (cm)"></div>
+          <div><span class="hint">Altura (cm)</span><input type="number" min="0" step="0.1" inputmode="decimal" name="Caixa altura (cm)"></div>
+        </div>
+        <label for="peso">Peso com a caixa (kg)</label>
+        <input id="peso" type="number" min="0" step="0.01" inputmode="decimal" name="Peso com caixa (kg)" placeholder="2,3">
+        <span class="lbl">Tem selo do INMETRO?</span>
+        <div class="seg">
+          <input type="radio" id="i1" name="INMETRO" value="Sim"><label for="i1">Sim</label>
+          <input type="radio" id="i2" name="INMETRO" value="Não"><label for="i2">Não</label>
+          <input type="radio" id="i3" name="INMETRO" value="Não sei"><label for="i3">Não sei</label>
+        </div>
+        <label for="obs">Detalhes do produto <span class="hint">material, viseira, peso, acessórios...</span></label>
+        <textarea id="obs" name="Observacoes" placeholder="Ex.: Casco em ABS, viseira cristal antirrisco, forro removível e lavável, acompanha bolsa."></textarea>
+      </div>
+    </form>
+  </section>
 
-      <label for="obs">Observações</label>
-      <textarea id="obs" name="Observacoes" placeholder="Qualquer coisa que ajude: material, viseira, peso do capacete, se vem com bolsa..."></textarea>
-    </div>
+  <aside class="pv-wrap" id="previa">
+    <div class="pv-tag"><i></i>Prévia do anúncio</div>
+    <article class="pv">
+      <div class="gal" id="gal">
+        <div class="ph" id="ph">
+          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          As fotos aparecem aqui
+        </div>
+        <img id="main-img" class="hide" alt="Foto do produto">
+        <span class="badge hide" id="pv-inm">INMETRO</span>
+      </div>
+      <div class="thumbs hide" id="thumbs"></div>
+      <div class="pv-b">
+        <div class="pv-meta">Novo · <span id="pv-cat">Capacete</span></div>
+        <h3 id="pv-title">Capacete Marca Modelo</h3>
+        <div class="price" id="pv-price"><small>Preço</small>a definir</div>
+        <div class="inst" id="pv-inst"></div>
 
-    <button id="btn" type="submit">Enviar produto</button>
-  </form>
-</div>
+        <div class="opt" id="pv-cores-box">
+          <div class="t">Cor: <b id="pv-cor">—</b></div>
+          <div class="chips" id="pv-cores"></div>
+        </div>
+        <div class="opt" id="pv-tam-box">
+          <div class="t">Tamanho: <b id="pv-tam">escolha</b></div>
+          <div class="chips" id="pv-tams"></div>
+        </div>
+
+        <div class="ship">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <div><b>Envio para todo o Brasil</b><br><span class="hint" id="pv-ship">Postagem em até 48 h</span></div>
+        </div>
+        <div class="stock" id="pv-stock">Estoque disponível</div>
+
+        <div class="cta"><div class="buy">Comprar agora</div><div class="cart">Adicionar ao carrinho</div></div>
+
+        <div class="feat">
+          <h4>Características</h4>
+          <table><tbody id="pv-feat"></tbody></table>
+          <p id="pv-desc" style="margin:12px 0 0;white-space:pre-line"></p>
+        </div>
+      </div>
+    </article>
+    <p class="pv-note">Só uma prévia. O anúncio de verdade é publicado pelo Gilvan.</p>
+  </aside>
+</main>
+
+<div class="bar"><div class="in">
+  <div class="st" id="st">Preencha marca, modelo, cores e custo.</div>
+  <a href="#previa" class="btn ghost only-m">Ver prévia</a>
+  <button id="btn" class="btn pri" type="submit" form="f">Enviar produto</button>
+</div></div>
 
 <script>
 // Endereço que recebe os envios (troque pelo código do FormSubmit depois da ativação).
 const DESTINO = "gilvan.anastacio77@gmail.com";
 
-const f = document.getElementById("f");
-const msg = document.getElementById("msg");
-const btn = document.getElementById("btn");
-const boxCap = document.getElementById("estoque-capacete");
-const boxOutro = document.getElementById("estoque-outro");
+const $ = id => document.getElementById(id);
+const f = $("f"), msg = $("msg"), btn = $("btn");
+const brl = v => Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+let fotos = [], fotoAtual = 0, corSel = 0;
 
-function trocaTipo(){
-  const t = f.querySelector('input[name="Tipo"]:checked').value;
-  boxCap.classList.toggle("hide", t !== "Capacete");
-  boxOutro.classList.toggle("hide", t === "Capacete");
+function tipo(){ return f.querySelector('input[name="Tipo"]:checked').value; }
+
+function render(){
+  const t = tipo(), cap = t === "Capacete";
+  $("estoque-capacete").classList.toggle("hide", !cap);
+  $("estoque-outro").classList.toggle("hide", cap);
+  $("box-pj").classList.toggle("hide", !$("p1").checked);
+
+  const marca = $("marca").value.trim(), modelo = $("modelo").value.trim();
+  $("pv-cat").textContent = t;
+  const nome = t === "Outro" ? "" : t + " ";
+  $("pv-title").textContent = (nome + (marca || "Marca") + " " + (modelo || "Modelo")).trim();
+
+  const p = parseFloat($("preco").value);
+  if (p > 0){
+    $("pv-price").innerHTML = "";
+    $("pv-price").textContent = brl(p);
+    $("pv-inst").textContent = "em até 10x " + brl(p/10) + " sem juros";
+  } else {
+    $("pv-price").innerHTML = '<small>Preço</small>a definir';
+    $("pv-inst").textContent = "";
+  }
+
+  const cores = $("cores").value.split(",").map(s=>s.trim()).filter(Boolean);
+  if (corSel >= cores.length) corSel = 0;
+  $("pv-cores-box").classList.toggle("hide", !cores.length);
+  $("pv-cor").textContent = cores[corSel] || "—";
+  const cc = $("pv-cores"); cc.textContent = "";
+  cores.forEach((c,i)=>{ const s=document.createElement("span"); s.className="chip"+(i===corSel?" on":""); s.textContent=c; s.onclick=()=>{corSel=i;render();}; s.style.cursor="pointer"; cc.appendChild(s); });
+
+  const tc = $("pv-tams"); tc.textContent = ""; let total = 0, linhas = [];
+  if (cap){
+    f.querySelectorAll("[data-tam]").forEach(inp=>{
+      const n = parseInt(inp.value)||0; total += n;
+      const s=document.createElement("span"); s.className="chip"+(n?"":" off"); s.textContent=inp.dataset.tam.split(" ")[0]; tc.appendChild(s);
+    });
+    $("pv-tam-box").classList.remove("hide");
+    $("pv-tam").textContent = "escolha";
+  } else {
+    linhas = $("est-txt").value.split("\n").map(s=>s.trim()).filter(Boolean);
+    linhas.forEach(l=>{ const s=document.createElement("span"); s.className="chip"; s.textContent=l.split(/[:—-]\s*\d/)[0].trim()||l; tc.appendChild(s); const m=l.match(/(\d+)\s*(un|unid|$)/i); if(m) total+=parseInt(m[1]); });
+    $("pv-tam-box").classList.toggle("hide", !linhas.length);
+    $("pv-tam").textContent = t === "Pneu de moto" ? "medida" : "opção";
+  }
+  $("pv-stock").innerHTML = total ? "<b>Estoque disponível</b> · " + total + " unidade" + (total>1?"s":"") : "<b>Estoque disponível</b>";
+
+  const inm = f.querySelector('input[name="INMETRO"]:checked');
+  $("pv-inm").classList.toggle("hide", !(inm && inm.value === "Sim"));
+
+  const peso = $("peso").value;
+  const feat = [["Marca", marca],["Modelo", modelo],["Categoria", t],["Cores", cores.join(", ")],
+    ["Certificação INMETRO", inm ? inm.value : ""],["Peso com embalagem", peso ? String(peso).replace(".",",")+" kg" : ""]].filter(r=>r[1]);
+  const fb = $("pv-feat"); fb.textContent = "";
+  feat.forEach(([k,v])=>{ const tr=document.createElement("tr"); const a=document.createElement("td"); a.textContent=k; const b=document.createElement("td"); b.textContent=v; tr.append(a,b); fb.appendChild(tr); });
+  $("pv-desc").textContent = $("obs").value.trim();
+
+  const ok = marca && modelo && cores.length && $("custo").value;
+  $("st").textContent = ok ? "Tudo certo para enviar." : "Preencha marca, modelo, cores e custo.";
 }
-f.querySelectorAll('input[name="Tipo"]').forEach(r => r.addEventListener("change", trocaTipo));
 
-function mostra(texto, tipo){
-  msg.className = "msg " + tipo;
-  msg.textContent = texto;
+function renderFotos(){
+  const has = fotos.length > 0;
+  $("ph").classList.toggle("hide", has);
+  $("main-img").classList.toggle("hide", !has);
+  $("thumbs").classList.toggle("hide", fotos.length < 2);
+  if (!has) return;
+  $("main-img").src = fotos[fotoAtual];
+  const th = $("thumbs"); th.textContent = "";
+  fotos.forEach((u,i)=>{ const b=document.createElement("button"); b.type="button"; b.className=i===fotoAtual?"on":""; const im=document.createElement("img"); im.src=u; im.alt="Foto "+(i+1); b.appendChild(im); b.onclick=()=>{fotoAtual=i;renderFotos();}; th.appendChild(b); });
+}
+$("fotos-file").addEventListener("change", e=>{
+  fotos.forEach(u=>URL.revokeObjectURL(u));
+  fotos = [...e.target.files].slice(0,8).map(fl=>URL.createObjectURL(fl)); fotoAtual = 0; renderFotos();
+});
+
+f.addEventListener("input", render);
+f.addEventListener("change", render);
+
+function mostra(texto, tipoMsg){
+  msg.className = "msg " + tipoMsg; msg.textContent = texto;
   msg.scrollIntoView({behavior:"smooth", block:"center"});
 }
 
@@ -182,33 +412,33 @@ f.addEventListener("submit", async e => {
   if (!f.checkValidity()){
     const bad = f.querySelector(":invalid");
     mostra("Falta preencher: " + (bad.dataset.campo || "um campo obrigatório"), "err");
-    bad.focus();
-    return;
+    bad.focus(); return;
   }
-  const dados = {};
-  new FormData(f).forEach((v, k) => { if (String(v).trim() !== "") dados[k] = v; });
-  const tipo = dados["Tipo"];
-  if (tipo === "Capacete") delete dados["Estoque (medidas)"];
-  dados._subject = "Produto: " + dados["Marca"] + " " + dados["Modelo"] + " (" + tipo + ")";
+  const dados = {"Quem preencheu":"Sabrina"};
+  new FormData(f).forEach((v,k)=>{ if (String(v).trim() !== "") dados[k] = v; });
+  if (dados["Tipo"] === "Capacete") delete dados["Estoque (medidas)"];
+  if (dados["PneuJa ja anuncia"] !== "Sim") delete dados["Preco na PneuJa (R$)"];
+  if (fotos.length) dados["Fotos escolhidas na previa"] = fotos.length + " (não enviadas, só prévia)";
+  dados._subject = "Produto: " + dados["Marca"] + " " + dados["Modelo"] + " (" + dados["Tipo"] + ")";
   dados._template = "table";
 
   btn.disabled = true; btn.textContent = "Enviando...";
   try{
     const r = await fetch("https://formsubmit.co/ajax/" + DESTINO, {
-      method:"POST",
-      headers:{"Content-Type":"application/json","Accept":"application/json"},
-      body: JSON.stringify(dados)
+      method:"POST", headers:{"Content-Type":"application/json","Accept":"application/json"}, body: JSON.stringify(dados)
     });
-    const j = await r.json().catch(() => ({}));
+    const j = await r.json().catch(()=>({}));
     if (!r.ok || String(j.success) === "false") throw new Error(j.message || "falha");
-    mostra("Enviado! " + dados["Marca"] + " " + dados["Modelo"] + " chegou para o Gilvan. Pode cadastrar o próximo.", "ok");
-    f.reset(); trocaTipo();
+    mostra("Produto enviado! " + dados["Marca"] + " " + dados["Modelo"] + " chegou para o Gilvan. Pode cadastrar o próximo.", "ok");
+    f.reset(); fotos.forEach(u=>URL.revokeObjectURL(u)); fotos=[]; corSel=0; renderFotos(); render();
   }catch(err){
     mostra("Não foi possível enviar agora. Confira a internet e tente de novo. Se continuar, mande um print para o Gilvan.", "err");
   }finally{
     btn.disabled = false; btn.textContent = "Enviar produto";
   }
 });
+
+render();
 </script>
 </body>
 </html>
